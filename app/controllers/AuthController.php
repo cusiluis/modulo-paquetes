@@ -28,7 +28,7 @@ class AuthController {
 
     public function logout() {
         Session::cerrar();
-        header('Location: index.php');
+        header('Location: /login');
     }
 }
 ?>

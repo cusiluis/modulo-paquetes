@@ -14,10 +14,10 @@
                 </p>
               </a>
             </li>
-            <li class="nav-item"> <a href="/admin/usuarios" class="nav-link"> <i class="nav-icon bi bi-circle text-danger"></i>
-                <p class="text">Usuarios</p>
+            <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-circle text-danger"></i>
+                <p class="text">Perfil</p>
               </a> </li>
-            <li class="nav-item"> <a href="/admin/paquetes" class="nav-link"> <i class="nav-icon bi bi-circle text-warning"></i>
+            <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-circle text-warning"></i>
                 <p>Paquetes</p>
               </a> </li>
             <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-circle text-info"></i>

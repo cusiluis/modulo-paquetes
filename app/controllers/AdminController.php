@@ -3,6 +3,7 @@ require_once 'app/core/Database.php';
 require_once 'app/core/Session.php';
 require_once 'app/models/Usuario.php';
 require_once 'app/models/Paquete.php';
+require_once 'app/models/Escort.php';
 require_once 'app/models/HistorialPaquete.php';
 
 class AdminController {
@@ -19,12 +20,32 @@ class AdminController {
         include 'app/views/admin/usuarios.php';
     }
 
-    public function listarPaquetes() {
+    public function detalleUsuario($usuarioId) {
         Session::esAdmin() or die("Acceso denegado");
+
         $db = new Database();
-        $paquetes = Paquete::obtenerTodos($db->conn);
-        include 'app/views/admin/paquetes.php';
+
+        // Datos usuario
+        $usuario = Usuario::obtenerPorId($db->conn, $usuarioId);
+
+        // Paquetes activos
+        $paquetes_activos = Paquete::obtenerActivosPorUsuario($db->conn, $usuarioId);
+
+        // Historial de paquetes
+        $historial = HistorialPaquete::obtenerPorUsuario($db->conn, $usuarioId);
+
+        // Escorts asociados
+        $escorts = Escort::obtenerPorUsuario($db->conn, $usuarioId);
+
+        include 'app/views/admin/usuarios/detalle.php';
     }
+
+    // public function listarPaquetes() {
+    //     Session::esAdmin() or die("Acceso denegado");
+    //     $db = new Database();
+    //     $paquetes = Paquete::obtenerTodos($db->conn);
+    //     include 'app/views/admin/paquetes.php';
+    // }
 
     public function crearPaquete($datos) {
         Session::esAdmin() or die("Acceso denegado");
@@ -38,7 +59,7 @@ class AdminController {
         $db = new Database();
         $usuario = Usuario::obtenerPorId($db->conn, $usuarioId);
         $historial = HistorialPaquete::obtenerPorUsuario($db->conn, $usuarioId);
-        include 'app/views/admin/historial_usuario.php';
+        include 'app/views/admin/usuarios/historial.php';
     }
 
     public function impersonar222($usuarioId) {
