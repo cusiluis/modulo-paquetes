@@ -34,7 +34,7 @@
     <div class="card card-outline card-primary">
       <div class="card-header"> <a href="../index2.html"
           class="link-dark text-center link-offset-2 link-opacity-100 link-opacity-50-hover">
-          <h1 class="mb-0"> <b>Reinovip</b>
+          <h1 class="mb-0"> <img src="public/adminlte/images/logo-reino-vip.png"/>
           </h1>
         </a> </div>
       <div class="card-body login-card-body">
@@ -43,18 +43,18 @@
         <form method="POST" action="/login_post">
           <div class="input-group mb-1">
             <div class="form-floating"> <input id="loginEmail" type="email"  name="email" class="form-control" value=""
-                placeholder="" required> <label for="loginEmail">Email</label> </div>
+                placeholder="" required> <label for="loginEmail">Correo</label> </div>
             <div class="input-group-text"> <span class="bi bi-envelope"></span> </div>
           </div>
           <div class="input-group mb-1">
             <div class="form-floating"> <input id="loginPassword" type="password" name="password" class="form-control" placeholder="" required>
-              <label for="loginPassword">Password</label> </div>
+              <label for="loginPassword">Contraseña</label> </div>
             <div class="input-group-text"> <span class="bi bi-lock-fill"></span> </div>
           </div> <!--begin::Row-->
           <div class="row">
             <div class="col d-inline-flex align-items-center">
             <div class="col-8">
-              <div class="d-grid gap-2"> <button type="submit" class="btn btn-primary">Ingresar</button> </div>
+              <div class="d-grid gap-2"> <button type="submit" class="btn submit-btn">Ingresar</button> </div>
             </div> <!-- /.col -->
           </div> <!--end::Row-->
         </form>
