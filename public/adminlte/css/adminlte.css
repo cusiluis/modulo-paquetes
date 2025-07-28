@@ -196,7 +196,7 @@
 
 body {
   margin: 0;
-  font-family: var(--bs-body-font-family);
+  font-family: "Raleway", sans-serif;
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
   line-height: var(--bs-body-line-height);
@@ -4540,7 +4540,7 @@ textarea.form-control-lg {
 .card-header {
   position: relative;
   padding: 1rem 1rem;
-  background-color: #742A5A !important;
+ /* background-color: #742A5A !important;*/
   border-bottom: 1px solid var(--bs-border-color-translucent);
   border-top-left-radius: 0.375rem;
   border-top-right-radius: 0.375rem;

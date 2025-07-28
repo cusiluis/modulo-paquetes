@@ -12,7 +12,9 @@ include APP_ROOT . '/app/core/globales.inc.php';
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="<?= BASE_URL ?>public/adminlte/css/adminlte.css" />
+  <link rel="stylesheet" href="<?= BASE_URL ?>public/adminlte/css/style-admin.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+   <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -33,8 +35,10 @@ include APP_ROOT . '/app/core/globales.inc.php';
 
       <section class="content">
         <div class="container-fluid">
- 
-          <table class="table table-striped">
+
+
+         <div class="table-responsive">
+          <table class="table table-striped table-outer" width="100%">
               <thead>
                   <tr>
                       <th>ID</th>
@@ -67,7 +71,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
                   <?php endforeach; ?>
               </tbody>
           </table>
-
+</div>
         </div>
       </section>
     </main>
