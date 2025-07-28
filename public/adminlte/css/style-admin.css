@@ -42,6 +42,7 @@
   background: #3b67f5;
   color: #fff;
 }
+
 .table-outer {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -95,9 +96,9 @@
    background-color: #38487c;
   border-color: #38487c;
 }
-
-btn-aprobar-solicitud
-
-.dataTables_info{
+.dataTables_info {
   color:#3b67f5;
+}
+table.dataTable td {
+  font-size: 14px;
 }
