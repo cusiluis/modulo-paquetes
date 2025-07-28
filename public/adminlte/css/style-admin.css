@@ -99,6 +99,23 @@
 .dataTables_info {
   color:#3b67f5;
 }
-table.dataTable td {
+table.table-striped td {
   font-size: 14px;
+}
+
+
+/* Opcional: Mejora visual en pantallas pequeñas */
+@media screen and (max-width: 768px) {
+  .table table {
+    font-size: 14px;
+  }
+
+  .table td, .table th {
+    white-space: nowrap;
+  }
+
+  .btn-sm {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
 }

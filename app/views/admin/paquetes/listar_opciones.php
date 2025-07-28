@@ -38,7 +38,9 @@ include APP_ROOT . '/app/core/globales.inc.php';
         <div class="container-fluid">
  
           <a href="<?= BASE_URL ?>paquetes/crear_opciones" class="btn btn-success-crear mb-3"><i class="fa-solid fa-file-invoice"></i> Crear nueva opción</a>
-           <div class="table-responsive">
+           
+          
+          <div class="table-responsive">
           <table id="opcionesp" class="table table-striped table-outer" width="100%">
             <thead>
               <tr>

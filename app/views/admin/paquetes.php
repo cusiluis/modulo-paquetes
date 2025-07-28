@@ -6,7 +6,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Administración Principal</title>
+  <title>Administración de Paquetes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Accesibilidad y Meta Básicos -->
@@ -18,6 +18,9 @@ include APP_ROOT . '/app/core/globales.inc.php';
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/adminlte/css/adminlte.css">
+   <link rel="stylesheet" href="<?= BASE_URL ?>public/adminlte/css/style-admin.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -41,10 +44,10 @@ include APP_ROOT . '/app/core/globales.inc.php';
     <section class="content">
       <div class="container-fluid">
         <div class="mb-3">
-          <a href="<?php echo BASE_URL; ?>admin/paquetes/crear" class="btn btn-primary">Nuevo Paquete</a>
+          <a href="<?php echo BASE_URL; ?>admin/paquetes/crear" class="btn btn-primary btn-success-crear"><i class="fa-solid fa-file-invoice"></i> Nuevo Paquete</a>
         </div>
-
-        <table class="table table-striped">
+ <div class="table-responsive">
+        <table class="table table-striped table-outer" width="100%">
           <thead>
             <tr>
               <th>ID</th>
@@ -60,7 +63,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
             <?php foreach ($paquetes as $p): ?>
               <tr>
                 <td><?= htmlspecialchars($p['id']) ?></td>
-                <td><?= htmlspecialchars($p['nombre']) ?></td>
+                <td style="font-weight: 700;"><?= htmlspecialchars($p['nombre']) ?></td>
                 <td>$<?= number_format($p['precio'], 2) ?></td>
                 <td><?= htmlspecialchars($p['frecuencia']) ?></td>
                 <td><?= htmlspecialchars($p['duracion_dias']) ?> días</td>
@@ -76,10 +79,10 @@ include APP_ROOT . '/app/core/globales.inc.php';
                       <?= isset($p['activo']) && $p['activo'] ? 'checked' : '' ?>>
                   </div>
 
-                  <a href="<?= BASE_URL ?>paquetes/actualizar/<?= $p['id'] ?>" class="btn btn-sm btn-info btn-editar">Editar</a>
+                  <a href="<?= BASE_URL ?>paquetes/actualizar/<?= $p['id'] ?>" class="btn btn-sm btn-info btn-editar"><i class="fa-solid fa-file-pen"></i> Editar</a>
 
                   <button class="btn btn-sm btn-danger btn-eliminar" data-id="<?= $p['id'] ?>">
-                    Eliminar
+                    <i class="fa-solid fa-trash-arrow-up"></i> Eliminar
                   </button>
                 </td>
               </tr>
@@ -90,6 +93,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
           </tbody>
         </table>
       </div>
+       </div>
     </section>
 
     <!-- Modal Crear Paquete -->
