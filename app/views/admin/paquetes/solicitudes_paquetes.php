@@ -61,7 +61,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
                       <td><?= $s['estado'] ?></td>
                       <td><?= $s['fecha_creacion'] ?></td>
                       <td>
-                        <?php if ($s['estado'] != 'aprobado'): ?>
+                        <?php if ($s['estado'] != 'aprobado' && $s['estado'] != 'rechazado'): ?>
                           <button type="button"
                                   class="btn btn-success btn-aprobar-solicitud btn-sm"
                                   data-nombre="<?= htmlspecialchars($s['nombre_escort']) ?>"
