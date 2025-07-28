@@ -21,6 +21,10 @@ include APP_ROOT . '/app/core/globales.inc.php';
 
   <!-- Iconos opcionales -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="<?= BASE_URL ?>public/adminlte/css/style-admin.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
 
 </head>
 
@@ -48,7 +52,8 @@ include APP_ROOT . '/app/core/globales.inc.php';
 
       <section class="content">
         <div class="container-fluid">
-          <table id="usuarios" class="table table-striped table-bordered" style="width:100%">
+          <div class="table-responsive">
+          <table id="usuarios" class="table table-striped table-bordered table-outer" width="100%">
             <thead>
               <tr>
                 <th>ID</th>
@@ -66,15 +71,16 @@ include APP_ROOT . '/app/core/globales.inc.php';
                   <td><?= $u['email'] ?></td>
                   <td><?= $u['rol'] ?></td>
                   <td>
-                    <a href="<?php echo BASE_URL; ?>usuarios/detalle/<?= $u['id'] ?>" class="btn btn-sm btn-info">Ver</a>
-                    <a href="<?php echo BASE_URL; ?>usuarios/historial?usuario=<?= $u['id'] ?>" class="btn btn-sm btn-info">Historial</a>
-                    <a href="index.php?r=admin_impersonar&usuario=<?= $u['id'] ?>" class="btn btn-sm btn-warning">Ingresar como</a>
+                    <a href="<?php echo BASE_URL; ?>usuarios/detalle/<?= $u['id'] ?>" class="btn btn-sm btn-info"><i class="fa-solid fa-eye"></i> Ver</a>
+                    <a href="<?php echo BASE_URL; ?>usuarios/historial?usuario=<?= $u['id'] ?>" class="btn btn-sm btn-historial"><i class="fa-solid fa-file-invoice"></i> Historial</a>
+                    <a href="index.php?r=admin_impersonar&usuario=<?= $u['id'] ?>" class="btn btn-sm btn-ingresar"><i class="fa-solid fa-door-open"></i> Ingresar como</a>
                   </td>
                 </tr>
               <?php endforeach; ?>
             </tbody>
           </table>
         </div>
+          </div>
       </section>
     </main>
 

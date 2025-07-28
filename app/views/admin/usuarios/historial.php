@@ -21,6 +21,9 @@ include APP_ROOT . '/app/core/globales.inc.php';
 
   <!-- Iconos opcionales -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>public/adminlte/css/style-admin.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 </head>
 
@@ -41,20 +44,22 @@ include APP_ROOT . '/app/core/globales.inc.php';
           <div class="row mb-2">
             <div class="col-sm-6">
               <h1>Historial de Paquetes del Usuario: <?= htmlspecialchars($usuario['nombre'] ?? $usuario['email'] ?? 'Usuario') ?></h1>
+              <a href="<?php echo BASE_URL; ?>admin/usuarios" class="btn btn-secondary mt-2">← Volver a Usuarios</a>
             </div>
           </div>
         </div>
       </section>
 
       <section class="content">
+        <div class="table-responsive">
         <div class="container-fluid">
 
-            <table class="table">
+            <table class="table table-striped table-outer" width="100%">
               <thead><tr><th>Paquete</th><th>Inicio</th><th>Fin</th><th>Estado</th></tr></thead>
               <tbody>
                   <?php foreach($historial as $h): ?>
                       <tr>
-                          <td><?= $h['nombre'] ?></td>
+                          <td style="font-weight: 700;"><?= $h['nombre'] ?></td>
                           <td><?= $h['fecha_inicio'] ?></td>
                           <td><?= $h['fecha_fin'] ?></td>
                           <td><?= ucfirst($h['estado']) ?></td>
@@ -62,6 +67,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
                   <?php endforeach; ?>
               </tbody>
           </table>   
+        </div>
         </div>
       </section>
     </main>

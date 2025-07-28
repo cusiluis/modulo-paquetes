@@ -32,6 +32,16 @@
   border-top-right-radius: 0.375rem;
   color:#fff;
 }
+
+.card-header-detalle {
+  position: relative;
+  padding: 1rem 1rem;
+  background-color: #c2c4c6 !important;
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+  color: #333;
+}
+
  h1, .h1 {
     font-size: 1.6rem;
     color: #3b67f5;
@@ -96,13 +106,49 @@
    background-color: #38487c;
   border-color: #38487c;
 }
+.btn-info {
+  color: #fff;
+   background-color: #3facff;
+  border-color: #3facff;
+}
+.btn-info:hover {
+  color: #fff;
+   background-color: #38487c;
+  border-color: #38487c;
+}
+.btn-historial {
+  color: #fff;
+   background-color: #3573e5;
+  border-color: #3573e5;
+}
+.btn-historial:hover {
+  color: #fff;
+   background-color: #38487c;
+  border-color: #38487c;
+}
+.btn-ingresar {
+  color: #fff;
+   background-color: #40d45b;
+  border-color: #40d45b;
+}
+.btn-ingresar:hover {
+  color: #fff;
+   background-color: #38487c;
+  border-color: #38487c;
+}
+
 .dataTables_info {
   color:#3b67f5;
 }
 table.table-striped td {
   font-size: 14px;
 }
-
+.card-title {
+  float: left;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
 
 /* Opcional: Mejora visual en pantallas pequeñas */
 @media screen and (max-width: 768px) {

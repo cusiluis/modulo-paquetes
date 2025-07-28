@@ -20,10 +20,10 @@ include APP_ROOT . '/app/core/globales.inc.php';
   <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/adminlte/css/adminlte.css" />
 
   <!-- Iconos opcionales -->
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-  />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"/>
+  <link rel="stylesheet" href="<?= BASE_URL ?>public/adminlte/css/style-admin.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -52,7 +52,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
         <div class="container-fluid">
 
           <div class="card mb-4">
-            <div class="card-header">
+            <div class="card-header-detalle">
               <h3 class="card-title">Datos Básicos</h3>
             </div>
             <div class="card-body">
@@ -65,7 +65,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
           </div>
 
           <div class="card mb-4">
-            <div class="card-header">
+            <div class="card-header-detalle">
               <h3 class="card-title">Paquete Activo</h3>
             </div>
             <div class="card-body">
@@ -82,7 +82,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
           </div>
 
           <div class="card mb-4">
-            <div class="card-header">
+            <div class="card-header-detalle">
               <h3 class="card-title">Historial de Paquetes</h3>
             </div>
             <div class="card-body">
@@ -107,7 +107,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
           </div>
 
           <div class="card mb-4">
-            <div class="card-header">
+            <div class="card-header-detalle">
               <h3 class="card-title">Escorts Asociados</h3>
             </div>
             <div class="card-body">
