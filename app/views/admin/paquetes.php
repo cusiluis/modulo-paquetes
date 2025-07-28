@@ -1,3 +1,7 @@
+<?php
+include APP_ROOT . '/app/core/globales.inc.php';
+//print_r(BASE_URL);
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,7 +17,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="/public/adminlte/css/adminlte.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/adminlte/css/adminlte.css">
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -37,9 +41,7 @@
     <section class="content">
       <div class="container-fluid">
         <div class="mb-3">
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearPaqueteModal">
-            Crear Paquete
-          </button>
+          <a href="<?php echo BASE_URL; ?>admin/paquetes/crear" class="btn btn-primary">Nuevo Paquete</a>
         </div>
 
         <table class="table table-striped">
@@ -48,7 +50,7 @@
               <th>ID</th>
               <th>Nombre</th>
               <th>Precio</th>
-              <th>Publicaciones</th>
+              <th>Frecuencia</th>
               <th>Duración</th>
               <th>Acciones</th>
             </tr>
@@ -60,20 +62,21 @@
                 <td><?= htmlspecialchars($p['id']) ?></td>
                 <td><?= htmlspecialchars($p['nombre']) ?></td>
                 <td>$<?= number_format($p['precio'], 2) ?></td>
-                <td><?= htmlspecialchars($p['cantidad_publicaciones']) ?></td>
+                <td><?= htmlspecialchars($p['frecuencia']) ?></td>
                 <td><?= htmlspecialchars($p['duracion_dias']) ?> días</td>
                 <td>
+                  <div class="form-check form-switch" style="display:inline">
+                    <input 
+                      name="activo"
+                      class="form-check-input toggle-activo"
+                      type="checkbox"
+                      role="switch"
+                      id="activoSwitch<?= $p['id'] ?>"
+                      data-id="<?= $p['id'] ?>"
+                      <?= isset($p['activo']) && $p['activo'] ? 'checked' : '' ?>>
+                  </div>
 
-                  <button class="btn btn-sm btn-info btn-editar" 
-                    data-id="<?= $p['id'] ?>" 
-                    data-nombre="<?= htmlspecialchars($p['nombre']) ?>" 
-                    data-precio="<?= $p['precio'] ?>"
-                    data-cantidad_publicaciones="<?= $p['cantidad_publicaciones'] ?>"
-                    data-duracion_dias="<?= $p['duracion_dias'] ?>"
-                    data-es_personalizado="<?= $p['es_personalizado'] ?>" 
-                    data-descripcion="<?= htmlspecialchars($p['descripcion']) ?>">
-                    Editar
-                  </button>
+                  <a href="<?= BASE_URL ?>paquetes/actualizar/<?= $p['id'] ?>" class="btn btn-sm btn-info btn-editar">Editar</a>
 
                   <button class="btn btn-sm btn-danger btn-eliminar" data-id="<?= $p['id'] ?>">
                     Eliminar
@@ -205,118 +208,62 @@
   <?php include "includes/footer.php"; ?>
 </div>
 
+<!-- Toast Notificación -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+  <div id="toastEstadoPaquete" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        Estado del paquete actualizado correctamente.
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+    </div>
+  </div>
+</div>
+
+
+
+
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/public/adminlte/js/adminlte.js"></script>
+<script src="<?php echo BASE_URL; ?>public/adminlte/js/adminlte.js"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  jQuery(document).ready(function () {
+    jQuery('.form-check-input[name="activo"]').on('change', function (e) {
+      const checkbox = jQuery(this);
+      const isChecked = checkbox.is(':checked');
+      const paqueteId = checkbox.closest('tr').find('.btn-editar').attr('href').split('/').pop();
 
-    // Crear paquete AJAX
-    const formCrear = document.getElementById("formCrearPaquete");
-    formCrear.addEventListener("submit", e => {
-      e.preventDefault();
-      const datos = {
-        nombre: document.getElementById("nombre").value,
-        precio: document.getElementById("precio").value,
-        cantidad_publicaciones: document.getElementById("cantidad_publicaciones").value,
-        duracion_dias: document.getElementById("duracion_dias").value,
-        es_personalizado: document.getElementById("es_personalizado").value,
-        descripcion: document.getElementById("descripcion").value
-      };
+      const mensaje = isChecked 
+        ? "¿Estás seguro de ACTIVAR este paquete?" 
+        : "¿Estás seguro de DESACTIVAR este paquete?";
 
-      fetch("/paquete_crear", { 
-        method: "POST", 
-        body: JSON.stringify(datos), 
-        headers: { "Content-Type": "application/json" } 
-      })
+      // Confirmar antes de proceder
+      if (!confirm(mensaje)) {
+        checkbox.prop('checked', !isChecked); // Revertir estado
+        return;
+      }
 
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          alert("Paquete creado correctamente.");
-          location.reload();
-        } else {
-          alert(data.message || "Error al crear el paquete.");
+      jQuery.ajax({
+        url: '<?= BASE_URL ?>paquetes/toggle_activo',
+        method: 'POST',
+        data: { id: paqueteId, activo: isChecked ? 1 : 0 },
+        success: function (response) {
+          const toastEl = document.getElementById('toastEstadoPaquete');
+          const toast = new bootstrap.Toast(toastEl);
+          toast.show();
         }
       });
     });
-
-    // Abrir modal editar
-    document.querySelectorAll(".btn-editar").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.getElementById("editar_id").value = btn.dataset.id;
-        document.getElementById("editar_nombre").value = btn.dataset.nombre;
-        document.getElementById("editar_precio").value = btn.dataset.precio;
-        document.getElementById("editar_cantidad_publicaciones").value = btn.dataset.cantidad_publicaciones;
-        document.getElementById("editar_duracion_dias").value = btn.dataset.duracion_dias;
-        document.getElementById("editar_es_personalizado").value = btn.dataset.es_personalizado;
-        document.getElementById("editar_descripcion").value = btn.dataset.descripcion;
-        const modal = new bootstrap.Modal(document.getElementById("editarPaqueteModal"));
-        modal.show();
-      });
-    });
-
-    // Editar paquete AJAX
-    const formEditar = document.getElementById("formEditarPaquete");
-    formEditar.addEventListener("submit", e => {
-      e.preventDefault();
-      const datos = {
-        id: document.getElementById("editar_id").value,
-        nombre: document.getElementById("editar_nombre").value,
-        precio: document.getElementById("editar_precio").value,
-        cantidad_publicaciones: document.getElementById("editar_cantidad_publicaciones").value,
-        duracion_dias: document.getElementById("editar_duracion_dias").value,
-        es_personalizado: document.getElementById("editar_es_personalizado").value,
-        descripcion: document.getElementById("editar_descripcion").value
-      };
-
-      fetch("/paquete_editar", { 
-        method: "POST", 
-        body: JSON.stringify(datos), 
-        headers: { "Content-Type": "application/json" } 
-      })
-
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          alert("Paquete actualizado correctamente.");
-          location.reload();
-        } else {
-          alert(data.message || "Error al actualizar el paquete.");
-        }
-      });
-    });
-
-    // Eliminar paquete
-    document.querySelectorAll(".btn-eliminar").forEach(btn => {
-      btn.addEventListener("click", () => {
-        if (confirm("¿Eliminar este paquete?")) {
-
-          fetch("/paquete_eliminar", { 
-            method: "POST", 
-            body: JSON.stringify({ id: btn.dataset.id }), 
-            headers: { "Content-Type": "application/json" } 
-          })
-
-          .then(res => res.json())
-          .then(data => {
-            if (data.success) {
-              alert("Paquete eliminado.");
-              location.reload();
-            } else {
-              alert(data.message || "Error al eliminar.");
-            }
-          });
-        }
-      });
-    });
-
   });
-
 </script>
+
+
 
 </body>
 </html>

@@ -1,4 +1,8 @@
-<?php include '../app/views/includes/header_admin.php'; ?>
+<?php
+include APP_ROOT . '/app/core/globales.inc.php';
+//print_r(BASE_URL);
+
+include '../app/views/includes/header_admin.php'; ?>
 <h2><?= $escort ? 'Editar' : 'Nuevo' ?> Escort</h2>
 <form method="POST" action="/admin/escorts/guardar">
 <?php if ($escort): ?><input type="hidden" name="ID" value="<?= $escort['ID'] ?>"><?php endif; ?>

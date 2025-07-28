@@ -1,3 +1,7 @@
+<?php
+include APP_ROOT . '/app/core/globales.inc.php';
+//print_r(BASE_URL);
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -13,7 +17,7 @@
   <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
   <!-- AdminLTE 4 CSS -->
-  <link rel="stylesheet" href="/public/adminlte/css/adminlte.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/adminlte/css/adminlte.css">
 
   <!-- Iconos opcionales -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -62,8 +66,8 @@
                   <td><?= $u['email'] ?></td>
                   <td><?= $u['rol'] ?></td>
                   <td>
-                    <a href="/usuarios/detalle/<?= $u['id'] ?>" class="btn btn-sm btn-info">Ver</a>
-                    <a href="/usuarios/historial?usuario=<?= $u['id'] ?>" class="btn btn-sm btn-info">Historial</a>
+                    <a href="<?php echo BASE_URL; ?>usuarios/detalle/<?= $u['id'] ?>" class="btn btn-sm btn-info">Ver</a>
+                    <a href="<?php echo BASE_URL; ?>usuarios/historial?usuario=<?= $u['id'] ?>" class="btn btn-sm btn-info">Historial</a>
                     <a href="index.php?r=admin_impersonar&usuario=<?= $u['id'] ?>" class="btn btn-sm btn-warning">Ingresar como</a>
                   </td>
                 </tr>
@@ -86,7 +90,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- AdminLTE 4 -->
-  <script src="/public/adminlte/js/adminlte.js"></script>
+  <script src="<?php echo BASE_URL; ?>public/adminlte/js/adminlte.js"></script>
 
   <!-- DataTables + Bootstrap 5 -->
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>

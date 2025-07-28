@@ -46,7 +46,7 @@ class Escort {
     }
 
     public static function obtenerPorUsuario($conn, $usuarioId) {
-        $sql = "SELECT * FROM reino01_Escort WHERE usuario_id = ?";
+        $sql = "SELECT * FROM reino01_Escort WHERE usuario_id = ? ORDER BY fecha_registro DESC";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $usuarioId);
         $stmt->execute();

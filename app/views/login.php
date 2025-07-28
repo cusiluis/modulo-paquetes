@@ -1,3 +1,7 @@
+<?php
+include APP_ROOT . '/app/core/globales.inc.php';
+//print_r(BASE_URL);
+?>
 <!DOCTYPE html>
 <html> <!--begin::Head-->
 
@@ -40,7 +44,7 @@
       <div class="card-body login-card-body">
         <p class="login-box-msg">Inicia sesión para comenzar tu sesión</p>
         <?php if (isset($error)) echo "<div class='alert alert-danger'>$error</div>"; ?>
-        <form method="POST" action="/login_post">
+        <form method="POST" action="<?php echo BASE_URL; ?>login_post">
           <div class="input-group mb-1">
             <div class="form-floating"> <input id="loginEmail" type="email"  name="email" class="form-control" value=""
                 placeholder="" required> <label for="loginEmail">Correo</label> </div>

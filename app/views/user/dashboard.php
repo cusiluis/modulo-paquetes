@@ -1,3 +1,7 @@
+<?php
+include APP_ROOT . '/app/core/globales.inc.php';
+//print_r(BASE_URL);
+?>
 <!DOCTYPE html>
 <html lang="en"> <!--begin::Head-->
 
@@ -26,8 +30,8 @@
   <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Third Party Plugin(Bootstrap Icons)-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
     crossorigin="anonymous"><!--end::Third Party Plugin(Bootstrap Icons)--><!--begin::Required Plugin(AdminLTE)-->
-  <link rel="stylesheet" href="public/adminlte/css/adminlte.css"><!--end::Required Plugin(AdminLTE)-->
-   <link rel="stylesheet" href="public/adminlte/css/style.css"><!--end::Required Plugin(AdminLTE)-->
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/adminlte/css/adminlte.css"><!--end::Required Plugin(AdminLTE)-->
+   <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/adminlte/css/style.css"><!--end::Required Plugin(AdminLTE)-->
 </head> <!--end::Head--> <!--begin::Body-->
 
 <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary"> <!--begin::App Wrapper-->
@@ -42,7 +46,8 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Bienvenido Usuario</h1>
+            <?php //print_r($escorts[0]); ?>
+              <h1>Bienvenid@ : <?php print_r($escorts[0]["Nombre"]); ?> </h1>
             </div>
           </div>
         </div>
@@ -62,7 +67,9 @@
               <div class="alert alert-success">
                   <strong><?= $paqueteActivo['nombre'] ?></strong><br>
                   Válido hasta: <?= $paqueteActivo['fecha_fin'] ?>
+                
               </div>
+              
           <?php else: ?>
               <div class="alert alert-warning">No tienes un paquete activo.</div>
           <?php endif; ?>
@@ -147,7 +154,7 @@
   <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
   <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-  <script src="public/adminlte/js/adminlte.js"></script>
+  <script src="<?php echo BASE_URL; ?>public/adminlte/js/adminlte.js"></script>
   <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
 <script>
 document.addEventListener('DOMContentLoaded', () => {

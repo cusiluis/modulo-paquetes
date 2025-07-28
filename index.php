@@ -2,8 +2,21 @@
 session_start();
 require_once './app/core/Session.php';
 
+// $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+// $uri = trim($uri, '/');
+define('APP_ROOT', realpath(__DIR__));
+
+$basePath = '';
+$basePath = '/modulo-paquetes'; // Ajusta según el nombre del subdirectorio
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+// Quitar el subdirectorio del URI
+if (strpos($uri, $basePath) === 0) {
+    $uri = substr($uri, strlen($basePath));
+}
+
 $uri = trim($uri, '/');
+
 
 switch (true) {
 
@@ -17,13 +30,13 @@ switch (true) {
             require './app/controllers/AuthController.php';
             (new AuthController())->login($_POST['email'], $_POST['password']);
         } else {
-            header("Location: /login");
+            header("Location: '.$basePath.'/login");
         }
         break;
 
     case $uri === 'dashboard':
         if (!Session::verificar()) {
-            header('Location: /login');
+            header('Location: '.$basePath.'/login');
             exit;
         }
         $rol = Session::rol();
@@ -59,6 +72,22 @@ switch (true) {
         (new EscortController())->formulario($matches[1]);
         break;        
 
+    case $uri === 'admin/paquetes/crear':
+        require './app/controllers/PaqueteController.php';
+        (new PaqueteController())->formularioCrear();
+        break;
+
+    case $uri === 'paquetes/guardar' && $_SERVER['REQUEST_METHOD'] === 'POST':
+        require './app/controllers/PaqueteController.php';
+        PaqueteController::crearPaquete();
+        break;
+
+    // case preg_match('#^paquetes/actualizar98989/(\d+)$#', $uri, $matches) ? true : false:
+    //     require './app/controllers/PaqueteController.php';
+    //     PaqueteController::actualizar($_GET['id']);
+    //     break;
+
+
     case $uri === 'admin/paquetes':
         require './app/controllers/PaqueteController.php';
         $c = new PaqueteController();
@@ -70,7 +99,25 @@ switch (true) {
         (new PaqueteController())->crear();
         break;
 
-    case $uri === 'paquete_editar':
+    
+    case preg_match('#^paquetes/actualizar/(\d+)$#', $uri, $matches) ? true : false:
+        require './app/controllers/PaqueteController.php';
+        PaqueteController::formularioEditar($matches[1]);
+        break;    
+
+
+    case $uri === 'paquetes/editar' && $_SERVER['REQUEST_METHOD'] === 'POST':
+        require './app/controllers/PaqueteController.php';
+        PaqueteController::actualizar();
+        break;
+
+    case $uri === 'paquetes/toggle_activo':
+        require './app/controllers/PaqueteController.php';
+        (new PaqueteController())->toggleActivo();
+        break;
+
+
+        case $uri === 'paquete_editar':
         require './app/controllers/PaqueteController.php';
         (new PaqueteController())->editar();
         break;
@@ -80,9 +127,82 @@ switch (true) {
         (new PaqueteController())->eliminar();
         break;
 
+   case $uri === 'paquetes/listar_opciones':
+        require './app/controllers/PaqueteOpcionController.php';
+        $c = new PaqueteOpcionController();
+        $c->listar();
+        break;        
+
+   case $uri === 'paquetes/crear_opciones':
+        require './app/controllers/PaqueteOpcionController.php';
+        $c = new PaqueteOpcionController();
+        $c->crearForm();
+        break;         
+
+    case $uri === 'paquetes/guarda_opciones' && $_SERVER['REQUEST_METHOD'] === 'POST':
+        require './app/controllers/PaqueteOpcionController.php';
+        PaqueteOpcionController::crear();
+        break;
+
+    case preg_match('#^paquetes/actualizar_opciones/(\d+)$#', $uri, $matches) ? true : false:
+        require './app/controllers/PaqueteOpcionController.php';
+        PaqueteOpcionController::editarForm($matches[1]);
+        break;
+
+    case $uri === 'paquetes/edita_opciones' && $_SERVER['REQUEST_METHOD'] === 'POST':
+        require './app/controllers/PaqueteOpcionController.php';
+        PaqueteOpcionController::actualizar();
+        break;
+
+    case preg_match('#^paquetes/elimina_opciones/(\d+)$#', $uri, $matches) ? true : false:
+        require './app/controllers/PaqueteOpcionController.php';
+        PaqueteOpcionController::eliminar($matches[1]);
+        break;
+
+    case $uri === 'opciones_paquetes/toggle_activo':
+        require './app/controllers/PaqueteOpcionController.php';
+        (new PaqueteOpcionController())->toggleActivoOP();
+        break;
+
+
+   case $uri === 'paquetes/listar_solicitudes':
+        require './app/controllers/SolicitudPaqueteController.php';
+        $c = new SolicitudPaqueteController();
+        $c->verSolicitudesAdmin();
+        break;  
+
+    case $uri === 'paquetes/asignar_paquete':
+        require './app/controllers/UsuarioPaqueteController.php';
+        $c = new UsuarioPaqueteController();
+        $c->asignarPaqueteEscort($_GET['id'], $_GET['usuario_id'], $_GET['escort_id'], $_GET['duracion_dias'], $_GET['paquete_id'], $_GET['estado']);
+        break;   
+
+
 
 
 ///// ADMIN USUARIOS ESCORT - AGENCIA
+
+
+
+    case $uri === 'user/paquetes/solicitar_paquete':
+        require './app/controllers/SolicitudPaqueteController.php';
+        $c = new SolicitudPaqueteController();
+        $c->solicitarForm();
+        break;
+
+
+    case $uri === 'user/paquetes/enviar_solicitud' && $_SERVER['REQUEST_METHOD'] === 'POST':
+        require './app/controllers/SolicitudPaqueteController.php';
+        SolicitudPaqueteController::enviarSolicitud();
+        break;
+
+
+
+
+
+
+
+
 
     case $uri === 'user/ver_paquetes':
         require './app/controllers/UsuarioPaqueteController.php';
@@ -95,6 +215,8 @@ switch (true) {
         $c = new UsuarioPaqueteController();
         $c->comprarPaquete($_GET['id']);
         break;
+
+     
 
 
 

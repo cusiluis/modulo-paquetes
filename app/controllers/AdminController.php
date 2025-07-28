@@ -29,8 +29,8 @@ class AdminController {
         $usuario = Usuario::obtenerPorId($db->conn, $usuarioId);
 
         // Paquetes activos
-        $paquetes_activos = Paquete::obtenerActivosPorUsuario($db->conn, $usuarioId);
-
+        //$paquetes_activos = Paquete::obtenerActivosPorUsuario($db->conn, $usuarioId);
+        $paquetes_activos = HistorialPaquete::obtenerActivo($db->conn, $usuarioId);
         // Historial de paquetes
         $historial = HistorialPaquete::obtenerPorUsuario($db->conn, $usuarioId);
 

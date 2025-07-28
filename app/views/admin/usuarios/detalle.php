@@ -1,3 +1,7 @@
+<?php
+include APP_ROOT . '/app/core/globales.inc.php';
+//print_r(BASE_URL);
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -13,7 +17,7 @@
   <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 
   <!-- AdminLTE 4 CSS -->
-  <link rel="stylesheet" href="/public/adminlte/css/adminlte.css" />
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/adminlte/css/adminlte.css" />
 
   <!-- Iconos opcionales -->
   <link
@@ -38,7 +42,7 @@
           <div class="row mb-2">
             <div class="col-sm-6">
               <h1>Detalle del Usuario: <?= htmlspecialchars($usuario['nombre'] ?? $usuario['email']) ?></h1>
-              <a href="/admin/usuarios" class="btn btn-secondary mt-2">← Volver a Usuarios</a>
+              <a href="<?php echo BASE_URL; ?>admin/usuarios" class="btn btn-secondary mt-2">← Volver a Usuarios</a>
             </div>
           </div>
         </div>
@@ -56,39 +60,24 @@
               <p><strong>Nombre:</strong> <?= htmlspecialchars($usuario['nombre']) ?></p>
               <p><strong>Email:</strong> <?= htmlspecialchars($usuario['email']) ?></p>
               <p><strong>Tipo de Cuenta:</strong> <?= htmlspecialchars($usuario['rol']) ?></p>
-              <p><strong>Registrado el:</strong> <?= htmlspecialchars(date('d/m/Y', strtotime($usuario['fecha_registro']))) ?></p>
+              <!-- <p><strong>Registrado el:</strong> <?= htmlspecialchars(date('d/m/Y', strtotime($usuario['fecha_registro']))) ?></p> -->
             </div>
           </div>
 
           <div class="card mb-4">
             <div class="card-header">
-              <h3 class="card-title">Paquetes Activos</h3>
+              <h3 class="card-title">Paquete Activo</h3>
             </div>
             <div class="card-body">
-              <?php if (!empty($paquetes_activos)): ?>
-              <table id="paquetes-activos" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>ID Paquete</th>
-                    <th>Nombre</th>
-                    <th>Publicaciones Disponibles</th>
-                    <th>Fecha Expiración</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php foreach($paquetes_activos as $p): ?>
-                  <tr>
-                    <td><?= htmlspecialchars($p['id']) ?></td>
-                    <td><?= htmlspecialchars($p['nombre']) ?></td>
-                    <td><?= htmlspecialchars($p['publicaciones_disponibles']) ?></td>
-                    <td><?= htmlspecialchars(date('d/m/Y', strtotime($p['fecha_expiracion']))) ?></td>
-                  </tr>
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
-              <?php else: ?>
-              <p>No hay paquetes activos.</p>
-              <?php endif; ?>
+                   
+          <?php if ($paquetes_activos): ?>
+              <div class="alert alert-success">
+                  <strong><?= $paquetes_activos['nombre'] ?></strong><br>
+                  Válido hasta: <?= $paquetes_activos['fecha_fin'] ?>
+              </div>
+          <?php else: ?>
+              <div class="alert alert-warning">No tienes un paquete activo.</div>
+          <?php endif; ?>
             </div>
           </div>
 
@@ -98,43 +87,19 @@
             </div>
             <div class="card-body">
               <?php if (!empty($historial)): ?>
-              <table id="historial-paquetes" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>ID Historial</th>
-                    <th>Paquete</th>
-                    <th>Fecha Compra</th>
-                    <th>Fecha Expiración</th>
-                    <th>Cantidad Publicaciones</th>
-                    <th>Estado</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php foreach ($historial as $item): ?>
-                  <tr>
-                    <td><?= htmlspecialchars($item['id']) ?></td>
-                    <td><?= htmlspecialchars($item['nombre_paquete']) ?></td>
-                    <td><?= htmlspecialchars(date('d/m/Y', strtotime($item['fecha_compra']))) ?></td>
-                    <td><?= htmlspecialchars(date('d/m/Y', strtotime($item['fecha_expiracion']))) ?></td>
-                    <td><?= htmlspecialchars($item['cantidad_publicaciones']) ?></td>
-                    <td>
-                      <?php
-                        switch ($item['estado']) {
-                          case 'activo':
-                            echo '<span class="badge bg-success">Activo</span>';
-                            break;
-                          case 'expirado':
-                            echo '<span class="badge bg-danger">Expirado</span>';
-                            break;
-                          default:
-                            echo '<span class="badge bg-secondary">Desconocido</span>';
-                        }
-                      ?>
-                    </td>
-                  </tr>
+              <table class="table">
+              <thead><tr><th>Paquete</th><th>Inicio</th><th>Fin</th><th>Estado</th></tr></thead>
+              <tbody>
+                  <?php foreach($historial as $h): ?>
+                      <tr>
+                          <td><?= $h['nombre'] ?></td>
+                          <td><?= $h['fecha_inicio'] ?></td>
+                          <td><?= $h['fecha_fin'] ?></td>
+                          <td><?= ucfirst($h['estado']) ?></td>
+                      </tr>
                   <?php endforeach; ?>
-                </tbody>
-              </table>
+              </tbody>
+            </table>   
               <?php else: ?>
               <p>No hay historial de paquetes.</p>
               <?php endif; ?>
@@ -164,7 +129,22 @@
                     <td><?= htmlspecialchars($e['Nombre']) ?></td>
                     <td><?= htmlspecialchars($e['Email']) ?></td>
                     <td><?= htmlspecialchars($e['Telefono']) ?></td>
-                    <td><?= $e['Publico'] ? 'Activo' : 'Inactivo' ?></td>
+                    <!-- <td><?= $e['Publico'] ? 'Activo' : 'Inactivo' ?></td> -->
+                    <td>
+                      <?php
+                        switch ($e['Publico']) {
+                          case 1:
+                            echo 'Activo';
+                            break;
+                          case 3:
+                            echo 'Pendiente de aprobación';
+                            break;
+                          default:
+                            echo 'Inactivo';
+                        }
+                      ?>
+                    </td>
+
                   </tr>
                   <?php endforeach; ?>
                 </tbody>
@@ -191,7 +171,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- AdminLTE 4 -->
-  <script src="public/adminlte/js/adminlte.js"></script>
+  <script src="<?php echo BASE_URL; ?>public/adminlte/js/adminlte.js"></script>
 
   <!-- DataTables + Bootstrap 5 -->
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>

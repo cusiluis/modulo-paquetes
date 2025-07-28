@@ -2,6 +2,7 @@
 require_once 'app/core/Database.php';
 require_once 'app/models/Usuario.php';
 require_once 'app/core/Session.php';
+include APP_ROOT . '/app/core/globales.inc.php';
 
 class AuthController {
 
@@ -28,7 +29,7 @@ class AuthController {
 
     public function logout() {
         Session::cerrar();
-        header('Location: /login');
+        header('Location: '.BASE_URL.'login');
     }
 }
 ?>

@@ -35,5 +35,5 @@ class EscortController {
         $db = new Database();
         Escort::eliminar($db->conn, $id);
         header("Location: admin/escorts");
-    }
+    }  
 }

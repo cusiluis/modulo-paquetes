@@ -1,3 +1,7 @@
+<?php
+include APP_ROOT . '/app/core/globales.inc.php';
+//print_r(BASE_URL);
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -13,7 +17,7 @@
   <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
   <!-- AdminLTE 4 CSS -->
-  <link rel="stylesheet" href="public/adminlte/css/adminlte.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>public/adminlte/css/adminlte.css">
 
   <!-- Iconos opcionales -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -46,7 +50,7 @@
         <div class="container-fluid">
           <h2 class="mb-4"><?= $escort ? 'Editar' : 'Nuevo' ?> Escort</h2>
 
-          <form method="POST" action="/admin/escorts/guardar" class="needs-validation" novalidate>
+          <form method="POST" action="<?php echo BASE_URL; ?>admin/escorts/guardar" class="needs-validation" novalidate>
             <?php if ($escort): ?>
               <input type="hidden" name="ID" value="<?= htmlspecialchars($escort['ID']) ?>">
             <?php endif; ?>
@@ -116,7 +120,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- AdminLTE 4 -->
-  <script src="public/adminlte/js/adminlte.js"></script>
+  <script src="<?php echo BASE_URL; ?>public/adminlte/js/adminlte.js"></script>
 
   <!-- DataTables + Bootstrap 5 -->
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
