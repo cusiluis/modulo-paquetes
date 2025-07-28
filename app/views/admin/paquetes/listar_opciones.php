@@ -12,7 +12,10 @@ include APP_ROOT . '/app/core/globales.inc.php';
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="<?= BASE_URL ?>public/adminlte/css/adminlte.css" />
+  <link rel="stylesheet" href="<?= BASE_URL ?>public/adminlte/css/style-admin.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+   <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -34,8 +37,9 @@ include APP_ROOT . '/app/core/globales.inc.php';
       <section class="content">
         <div class="container-fluid">
  
-          <a href="<?= BASE_URL ?>paquetes/crear_opciones" class="btn btn-success mb-3">Crear nueva opción</a>
-          <table id="opcionesp" class="table table-striped">
+          <a href="<?= BASE_URL ?>paquetes/crear_opciones" class="btn btn-success-crear mb-3"><i class="fa-solid fa-file-invoice"></i> Crear nueva opción</a>
+           <div class="table-responsive">
+          <table id="opcionesp" class="table table-striped table-outer" width="100%">
             <thead>
               <tr>
                 <th>ID</th>
@@ -52,7 +56,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
               <?php foreach ($opciones as $op): ?>
                 <tr>
                   <td><?= $op['id'] ?></td>
-                  <td><?= htmlspecialchars($op['titulo']) ?></td>
+                  <td style="font-weight: 700;"><?= htmlspecialchars($op['titulo']) ?></td>
                   <td><?= htmlspecialchars($op['nombre_portal']) ?></td>
                   <td><?= $op['duracion_dias'] ?></td>
                   <td><?= $op['veces_dia'] ?></td>
@@ -71,14 +75,14 @@ include APP_ROOT . '/app/core/globales.inc.php';
                         <?= isset($op['activo']) && $op['activo'] ? 'checked' : '' ?>>
                     </div>
 
-                    <a href="<?= BASE_URL ?>paquetes/actualizar_opciones/<?= $op['id'] ?>" class="btn btn-sm btn-info btn-editar">Editar</a>
-                    <a href="<?= BASE_URL ?>paquetes/elimina_opciones/<?= $op['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar esta opción?')">Eliminar</a>
+                    <a href="<?= BASE_URL ?>paquetes/actualizar_opciones/<?= $op['id'] ?>" class="btn btn-sm btn-info btn-editar"><i class="fa-solid fa-file-pen"></i> Editar</a>
+                    <a href="<?= BASE_URL ?>paquetes/elimina_opciones/<?= $op['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar esta opción?')"><i class="fa-solid fa-trash-arrow-up"></i> Eliminar</a>
                   </td>
                 </tr>
               <?php endforeach; ?>
             </tbody>
           </table>
-
+ </div>
         </div>
       </section>
     </main>

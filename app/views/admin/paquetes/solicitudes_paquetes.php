@@ -15,6 +15,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
   <link rel="stylesheet" href="<?= BASE_URL ?>public/adminlte/css/style-admin.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -56,7 +57,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
                       <td><?= $s['id'] ?></td>
                       <td><?= $s['usuario_id'] ?></td>
                       <td><?= htmlspecialchars($s['nombre_escort']) ?></td>
-                      <td><?= htmlspecialchars($s['nombre_paquete']) ?></td>
+                      <td style="font-weight: 700;"><?= htmlspecialchars($s['nombre_paquete']) ?></td>
                       <td><?= $s['estado'] ?></td>
                       <td><?= $s['fecha_creacion'] ?></td>
                       <td>
@@ -65,7 +66,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
                                   class="btn btn-success btn-aprobar-solicitud btn-sm"
                                   data-nombre="<?= htmlspecialchars($s['nombre_escort']) ?>"
                                   data-url="<?= BASE_URL ?>paquetes/asignar_paquete?id=<?= $s['id'] ?>&usuario_id=<?= $s['usuario_id'] ?>&escort_id=<?= $s['escort_id'] ?>&duracion_dias=<?= $s['duracion_dias'] ?>&paquete_id=<?= $s['paquete_id'] ?>&estado=aprobado">
-                            Aprobar
+                            <i class="fa-solid fa-square-check"></i> Aprobar
                           </button>
 
                         <?php endif; ?>
@@ -75,7 +76,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
                                   class="btn btn-danger btn-rechazar-solicitud btn-sm"
                                   data-nombre="<?= htmlspecialchars($s['nombre_escort']) ?>"
                                   data-url="<?= BASE_URL ?>paquetes/rechazar_solicitud?id=<?= $s['id'] ?>">
-                            Rechazar
+                           <i class="fa-solid fa-square-xmark"></i> Rechazar
                           </button>
                         <?php endif; ?>
                     </td>
