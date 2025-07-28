@@ -44,7 +44,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
                       <th>ID</th>
                       <th>Usuario</th>
                       <th>Escort</th>
-                      <th>Descripción</th>
+                      <th>Paquete Solicitado</th>
                       <th>Estado</th>
                       <th>Fecha</th>
                       <th>Acción</th>
@@ -56,17 +56,29 @@ include APP_ROOT . '/app/core/globales.inc.php';
                       <td><?= $s['id'] ?></td>
                       <td><?= $s['usuario_id'] ?></td>
                       <td><?= htmlspecialchars($s['nombre_escort']) ?></td>
-                      <td><?= htmlspecialchars($s['descripcion']) ?></td>
+                      <td><?= htmlspecialchars($s['nombre_paquete']) ?></td>
                       <td><?= $s['estado'] ?></td>
                       <td><?= $s['fecha_creacion'] ?></td>
                       <td>
-                          <?php if ($s['estado'] != 'aprobado'): ?>
-                              <a href="<?php echo BASE_URL; ?>paquetes/asignar_paquete?id=<?= $s['id'] ?>&usuario_id=<?= $s['usuario_id'] ?>&escort_id=<?= $s['escort_id'] ?>&duracion_dias=<?= $s['escort_id'] ?>&paquete_id=<?= $s['paquete_id'] ?>&estado=aprobado">Aprobar</a>
-                          <?php endif; ?>
-                          <?php if ($s['estado'] != 'rechazado'): ?>
-                              <a href="index.php?r=cambiar_estado&id=<?= $s['id'] ?>&estado=rechazado">Rechazar</a>
-                          <?php endif; ?>
-                      </td>
+                        <?php if ($s['estado'] != 'aprobado'): ?>
+                          <button type="button"
+                                  class="btn btn-success btn-aprobar-solicitud btn-sm"
+                                  data-nombre="<?= htmlspecialchars($s['nombre_escort']) ?>"
+                                  data-url="<?= BASE_URL ?>paquetes/asignar_paquete?id=<?= $s['id'] ?>&usuario_id=<?= $s['usuario_id'] ?>&escort_id=<?= $s['escort_id'] ?>&duracion_dias=<?= $s['duracion_dias'] ?>&paquete_id=<?= $s['paquete_id'] ?>&estado=aprobado">
+                            Aprobar
+                          </button>
+
+                        <?php endif; ?>
+
+                        <?php if ($s['estado'] != 'rechazado' && $s['estado'] != 'aprobado'): ?>
+                          <button type="button"
+                                  class="btn btn-danger btn-rechazar-solicitud btn-sm"
+                                  data-nombre="<?= htmlspecialchars($s['nombre_escort']) ?>"
+                                  data-url="<?= BASE_URL ?>paquetes/rechazar_solicitud?id=<?= $s['id'] ?>">
+                            Rechazar
+                          </button>
+                        <?php endif; ?>
+                    </td>
                   </tr>
                   <?php endforeach; ?>
               </tbody>
@@ -79,17 +91,40 @@ include APP_ROOT . '/app/core/globales.inc.php';
     <?php include "app/views/admin/includes/footer.php" ?>
   </div>
 
-<!-- Toast Notificación -->
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
-  <div id="toastEstadoPaquete" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-      <div class="toast-body">
-        Estado de Opcion de paquete actualizado correctamente.
+  <!-- Modal Confirmar Aprobación -->
+  <div class="modal fade" id="confirmarAprobacionModal" tabindex="-1" aria-labelledby="modalAprobacionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content border-success">
+        <div class="modal-header">
+          <h5 class="modal-title text-success" id="modalAprobacionLabel">Confirmar Aprobación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body" id="mensajeAprobacion"></div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-success" id="btnConfirmarAprobacion">Sí, aprobar</a>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
       </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
     </div>
   </div>
-</div>
+
+  <!-- Modal Confirmar Rechazo -->
+  <div class="modal fade" id="confirmarRechazoModal" tabindex="-1" aria-labelledby="modalRechazoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content border-danger">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger" id="modalRechazoLabel">Confirmar Rechazo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body" id="mensajeRechazo"></div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-danger" id="btnConfirmarRechazo">Sí, rechazar</a>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -102,46 +137,52 @@ include APP_ROOT . '/app/core/globales.inc.php';
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
   <!-- DataTables Configuración -->
-  <script>
-  jQuery(document).ready(function () {
-    jQuery('.form-check-input[name="activo"]').on('change', function (e) {
-      const checkbox = jQuery(this);
-      const isChecked = checkbox.is(':checked');
-      const OpaqueteId = checkbox.closest('tr').find('.btn-editar').attr('href').split('/').pop();
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Modal Aprobar
+    const modalAprobacion = new bootstrap.Modal(document.getElementById('confirmarAprobacionModal'));
+    const mensajeAprobacion = document.getElementById('mensajeAprobacion');
+    const btnConfirmarAprobacion = document.getElementById('btnConfirmarAprobacion');
 
-      const mensaje = isChecked 
-        ? "¿Estás seguro de ACTIVAR esta Opcion de paquete?" 
-        : "¿Estás seguro de DESACTIVAR esta Opcion de paquete?";
+    document.querySelectorAll('.btn-aprobar-solicitud').forEach(boton => {
+      boton.addEventListener('click', function () {
+        const nombre = this.getAttribute('data-nombre');
+        const url = this.getAttribute('data-url');
 
-      // Confirmar antes de proceder
-      if (!confirm(mensaje)) {
-        checkbox.prop('checked', !isChecked); // Revertir estado
-        return;
-      }
+        mensajeAprobacion.innerHTML = `¿Deseas <strong>aprobar</strong> la solicitud del escort <strong>${nombre}</strong>?<br /><br /> Al confirmar la aprobación, el paquete se marcará como comprado y pagado y será asignado automáticamente a <strong>${nombre}</strong>.`;
+        btnConfirmarAprobacion.setAttribute('href', url);
 
-      jQuery.ajax({
-        url: '<?= BASE_URL ?>opciones_paquetes/toggle_activo',
-        method: 'POST',
-        data: { id: OpaqueteId, activo: isChecked ? 1 : 0 },
-        success: function (response) {
-          const toastEl = document.getElementById('toastEstadoPaquete');
-          const toast = new bootstrap.Toast(toastEl);
-          toast.show();
-        }
+        modalAprobacion.show();
       });
+    });
 
+    // Modal Rechazar
+    const modalRechazo = new bootstrap.Modal(document.getElementById('confirmarRechazoModal'));
+    const mensajeRechazo = document.getElementById('mensajeRechazo');
+    const btnConfirmarRechazo = document.getElementById('btnConfirmarRechazo');
+
+    document.querySelectorAll('.btn-rechazar-solicitud').forEach(boton => {
+      boton.addEventListener('click', function () {
+        const nombre = this.getAttribute('data-nombre');
+        const url = this.getAttribute('data-url');
+
+        mensajeRechazo.innerHTML = `¿Estás seguro de <strong>rechazar</strong> la solicitud del escort <strong>${nombre}</strong>?`;
+        btnConfirmarRechazo.setAttribute('href', url);
+
+        modalRechazo.show();
+      });
     });
   });
 
   $(document).ready(function () {
-      $('#opcionesp').DataTable({
-        responsive: true,
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
-        }
-      });
-  });
-  </script>
+        $('#opcionesp').DataTable({
+          responsive: true,
+          language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+          }
+        });
+    }); 
+</script>
 
 </body>
 </html>
