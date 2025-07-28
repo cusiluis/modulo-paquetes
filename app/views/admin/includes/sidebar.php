@@ -12,7 +12,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
         <nav class="mt-2"> <!--begin::Sidebar Menu-->
           <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
             aria-label="Main navigation" data-accordion="false" id="navigation">
-            <li class="nav-item"> <a href="/dashboard" class="nav-link"> <i class="nav-icon bi bi-speedometer"></i>
+            <li class="nav-item"> <a href="<?php echo BASE_URL; ?>dashboard" class="nav-link"> <i class="nav-icon bi bi-speedometer"></i>
                 <p>
                   Dashboard
                 </p>
