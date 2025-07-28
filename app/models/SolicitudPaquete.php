@@ -26,14 +26,67 @@ class SolicitudPaquete
     public static function obtenerPorUsuario($conn, $usuarioId)
     {
         $stmt = $conn->prepare("
-            SELECT * FROM solicitudes_paquetes 
-            WHERE usuario_id = ? 
-            ORDER BY fecha_creacion DESC
+            SELECT 
+                    sp.*, 
+                    u.nombre AS nombre_escort, 
+                    p.nombre AS nombre_paquete, 
+                    p.duracion_dias 
+                FROM solicitudes_paquetes sp
+                JOIN reino01_Escort u ON sp.escort_id = u.ID
+                LEFT JOIN paquetes p ON sp.paquete_id = p.id
+                WHERE sp.usuario_id = ?
+                ORDER BY sp.fecha_creacion DESC
         ");
+
+        // $stmt = $conn->prepare("
+        //     SELECT * FROM solicitudes_paquetes 
+        //     WHERE usuario_id = ? 
+        //     ORDER BY fecha_creacion DESC
+        // ");
+
         $stmt->bind_param("i", $usuarioId);
         $stmt->execute();
         return $stmt->get_result();
     }
+
+    public static function obtenerPorUsuarioPendiente($conn, $usuarioId)
+    {
+        $stmt = $conn->prepare("
+            SELECT 
+                    sp.*, 
+                    u.nombre AS nombre_escort, 
+                    p.nombre AS nombre_paquete, 
+                    p.duracion_dias 
+                FROM solicitudes_paquetes sp
+                JOIN reino01_Escort u ON sp.escort_id = u.ID
+                LEFT JOIN paquetes p ON sp.paquete_id = p.id
+                WHERE sp.usuario_id = ? AND sp.estado = 'pendiente'
+                ORDER BY sp.fecha_creacion DESC
+        ");
+
+        // $stmt = $conn->prepare("
+        //     SELECT * FROM solicitudes_paquetes 
+        //     WHERE usuario_id = ? 
+        //     ORDER BY fecha_creacion DESC
+        // ");
+
+        $stmt->bind_param("i", $usuarioId);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+
+    public static function obtenerPorEscort($conn, $escortId)
+    {
+        $stmt = $conn->prepare("
+            SELECT * FROM solicitudes_paquetes 
+            WHERE escort_id = ? 
+            ORDER BY fecha_creacion DESC
+        ");
+        $stmt->bind_param("i", $escortId);
+        $stmt->execute();
+        return $stmt->get_result();
+    }    
 
     // public static function obtenerTodas($conn)
     // {

@@ -164,7 +164,6 @@ switch (true) {
         (new PaqueteOpcionController())->toggleActivoOP();
         break;
 
-
    case $uri === 'paquetes/listar_solicitudes':
         require './app/controllers/SolicitudPaqueteController.php';
         $c = new SolicitudPaqueteController();
@@ -176,6 +175,16 @@ switch (true) {
         $c = new UsuarioPaqueteController();
         $c->asignarPaqueteEscort($_GET['id'], $_GET['usuario_id'], $_GET['escort_id'], $_GET['duracion_dias'], $_GET['paquete_id'], $_GET['estado']);
         break;   
+
+    case $uri === 'paquetes/rechazar_solicitud':
+        require './app/controllers/SolicitudPaqueteController.php';
+        $c = new SolicitudPaqueteController();
+        $estado_r ="rechazado";
+        $c->cambiarEstado($_GET['id'], $estado_r);
+        break; 
+
+
+
 
 
 

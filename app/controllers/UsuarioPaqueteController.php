@@ -16,6 +16,7 @@ class UsuarioPaqueteController {
         $paqueteActivo = HistorialPaquete::obtenerActivo($db->conn, $_SESSION['user_id']);
         $historial = HistorialPaquete::obtenerPorUsuario($db->conn, $_SESSION['user_id']);
         $paquetes = Paquete::obtenerTodosDisponibles($db->conn);
+        $solicitudes = SolicitudPaquete::obtenerPorUsuarioPendiente($db->conn, $_SESSION['user_id']);
         $escorts = Escort::obtenerPorUsuario($db->conn, $_SESSION['user_id']);
 
         include 'app/views/user/dashboard.php';

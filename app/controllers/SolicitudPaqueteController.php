@@ -59,7 +59,7 @@ class SolicitudPaqueteController {
         $db = new Database();
 
         SolicitudPaquete::actualizarEstado($db->conn, $id, $nuevoEstado);
-        header('Location: index.php?r=admin_solicitudes');
+        header('Location: '.BASE_URL.'paquetes/listar_solicitudes');
     }
 }
 ?>

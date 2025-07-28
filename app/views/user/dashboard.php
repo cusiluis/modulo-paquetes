@@ -1,6 +1,6 @@
 <?php
 include APP_ROOT . '/app/core/globales.inc.php';
-//print_r(BASE_URL);
+print_r($paquetes_solicitados);
 ?>
 <!DOCTYPE html>
 <html lang="en"> <!--begin::Head-->
@@ -89,7 +89,39 @@ include APP_ROOT . '/app/core/globales.inc.php';
               </tbody>
           </table>        
         </div>
+      </section>      
+
+      <?php if ($solicitudes->num_rows > 0){ ?>
+      <section class="content">
+        <div class="container-fluid">
+
+        <h4>Solicitud de Paquetes</h4>
+
+          <div class="table-responsive">
+              <table class="table table-striped table-outer" width="100%">
+                  <thead>
+                      <tr>
+                          <th>Nombre Escort</th>
+                          <th>Paquete Solicitado</th>
+                          <th>Estado</th>
+                          <th>Fecha</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <?php foreach ($solicitudes as $s): ?>
+                      <tr>
+                          <td><?= htmlspecialchars($s['nombre_escort']) ?></td>
+                          <td><?= htmlspecialchars($s['nombre_paquete']) ?></td>
+                          <td><?= $s['estado'] ?></td>
+                          <td><?= $s['fecha_creacion'] ?></td>
+                      </tr>
+                      <?php endforeach; ?>
+                  </tbody>
+              </table>
+          </div>
+        </div>
       </section>
+      <?php } ?>
 
       <section class="content">
         <div class="container-fluid">
