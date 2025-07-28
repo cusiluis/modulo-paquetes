@@ -87,12 +87,13 @@ include APP_ROOT . '/app/core/globales.inc.php';
             </div>
             <div class="card-body">
               <?php if (!empty($historial)): ?>
-              <table class="table">
+                <div class="table-responsive">
+              <table class="table table-striped table-outer" width="100%">
               <thead><tr><th>Paquete</th><th>Inicio</th><th>Fin</th><th>Estado</th></tr></thead>
               <tbody>
                   <?php foreach($historial as $h): ?>
                       <tr>
-                          <td><?= $h['nombre'] ?></td>
+                          <td style="font-weight: 700;"><?= $h['nombre'] ?></td>
                           <td><?= $h['fecha_inicio'] ?></td>
                           <td><?= $h['fecha_fin'] ?></td>
                           <td><?= ucfirst($h['estado']) ?></td>
@@ -104,6 +105,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
               <p>No hay historial de paquetes.</p>
               <?php endif; ?>
             </div>
+            </div>
           </div>
 
           <div class="card mb-4">
@@ -112,7 +114,8 @@ include APP_ROOT . '/app/core/globales.inc.php';
             </div>
             <div class="card-body">
               <?php if (!empty($escorts)): ?>
-              <table id="escorts-asociados" class="table table-bordered table-striped">
+                <div class="table-responsive">
+              <table id="escorts-asociados" class="table table-bordered table-striped table-outer" width="100%">
                 <thead>
                   <tr>
                     <th>ID Escort</th>
@@ -130,7 +133,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
                     <td><?= htmlspecialchars($e['Email']) ?></td>
                     <td><?= htmlspecialchars($e['Telefono']) ?></td>
                     <!-- <td><?= $e['Publico'] ? 'Activo' : 'Inactivo' ?></td> -->
-                    <td>
+                    <td style="font-weight: 700;">
                       <?php
                         switch ($e['Publico']) {
                           case 1:
@@ -152,6 +155,7 @@ include APP_ROOT . '/app/core/globales.inc.php';
               <?php else: ?>
               <p>No hay escorts asociados.</p>
               <?php endif; ?>
+            </div>
             </div>
           </div>
 
